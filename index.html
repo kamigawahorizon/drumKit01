@@ -72,6 +72,26 @@
 
 
         <script>
+   
+
+  function removeTransition(e) {                        //This creates a function called removeTransition that takes an argument e.
+    if (e.propertyName !== 'transform') return;         //This line checks if the propertyName of the event e is not equal to 'transform'. If that's true, then it exits the function and does nothing. If it's not true, it continues to the next line.
+    e.target.classList.remove('playing');               //This line removes the class playing from the classList of the target element in the event e.
+  }
+
+  function playSound(e) {                               //This creates a function called playSound that takes an argument e.
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);     //This line gets an element with the tag audio that has an attribute called data-key that is equal to the keyCode property of the event e. It stores this element in a constant called audio.
+    const key = document.querySelector(`div[data-key="${e.keyCode}"]`);         //This line gets an element with the tag div that has an attribute called data-key that is equal to the keyCode property of the event e. It stores this element in a constant called key.
+    if (!audio) return;                                 //This line checks if the audio constant is falsy (i.e., it's null, undefined, 0, false, or an empty string). If that's true, then it exits the function and does nothing. If it's not true, it continues to the next line. Stop function from running all together
+
+    key.classList.add('playing');                       //This line adds the class playing to the classList of the key element.
+    audio.currentTime = 0;                              //This line sets the currentTime property of the audio element to 0. Allows multiple presses
+    audio.play();                                       //This line plays the audio element.
+  }
+
+  const keys = Array.from(document.querySelectorAll('.key'));       //This line gets all the elements on the page that have a class of key and puts them into an array called keys.
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));     //This line adds an event listener to each element in the keys array. The event listener listens for a transitionend event and calls the removeTransition function when that event happens.
+  window.addEventListener('keydown', playSound);                    //This line adds an event listener to the window object. The event listener listens for a keydown event and calls the playSound function when that event happens.
 
 
         </script>
@@ -82,4 +102,5 @@
 
     </body>
 
-</hmtl>
+</hmtl> 
+
